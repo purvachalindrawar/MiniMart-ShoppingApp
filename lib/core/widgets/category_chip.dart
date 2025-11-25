@@ -1,0 +1,20 @@
+import 'package:flutter/material.dart';
+
+class CategoryChip extends StatelessWidget {
+  const CategoryChip({super.key, required this.label, this.selected = false});
+
+  final String label;
+  final bool selected;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(right: 8),
+      child: ChoiceChip(
+        label: Text(label),
+        selected: selected,
+        onSelected: (_) {},
+      ),
+    );
+  }
+}
