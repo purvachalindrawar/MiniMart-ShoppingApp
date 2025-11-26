@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shimmer/shimmer.dart';
@@ -8,15 +10,37 @@ import 'package:mini_mart/core/widgets/product_card_placeholder.dart';
 import 'package:mini_mart/features/home/home_providers.dart';
 import 'package:mini_mart/models/product.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  Timer? _debounce;
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
+  }
+
+  void _onSearchChanged(String value) {
+    _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 400), () {
+      ref.read(searchQueryProvider.notifier).state = value;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final isTablet = MediaQuery.of(context).size.width >= 600;
     final crossAxisCount = isTablet ? 4 : 2;
 
     final productsAsync = ref.watch(productsProvider);
+    final selectedCategory = ref.watch(selectedCategoryProvider);
+    final searchQuery = ref.watch(searchQueryProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -27,18 +51,53 @@ class HomeScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const MiniMartSearchBar(),
+            MiniMartSearchBar(onChanged: _onSearchChanged),
             const SizedBox(height: 16),
             SizedBox(
               height: 40,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: const [
-                  CategoryChip(label: 'All', selected: true),
-                  CategoryChip(label: 'Fruits'),
-                  CategoryChip(label: 'Vegetables'),
-                  CategoryChip(label: 'Dairy'),
-                  CategoryChip(label: 'Snacks'),
+                children: [
+                  CategoryChip(
+                    label: 'All',
+                    selected: selectedCategory == 'All',
+                    onTap: () {
+                      ref.read(selectedCategoryProvider.notifier).state = 'All';
+                    },
+                  ),
+                  CategoryChip(
+                    label: 'Fruits',
+                    selected: selectedCategory == 'Fruits',
+                    onTap: () {
+                      ref.read(selectedCategoryProvider.notifier).state =
+                          'Fruits';
+                    },
+                  ),
+                  CategoryChip(
+                    label: 'Vegetables',
+                    selected: selectedCategory == 'Vegetables',
+                    onTap: () {
+                      ref
+                          .read(selectedCategoryProvider.notifier)
+                          .state = 'Vegetables';
+                    },
+                  ),
+                  CategoryChip(
+                    label: 'Dairy',
+                    selected: selectedCategory == 'Dairy',
+                    onTap: () {
+                      ref.read(selectedCategoryProvider.notifier).state =
+                          'Dairy';
+                    },
+                  ),
+                  CategoryChip(
+                    label: 'Snacks',
+                    selected: selectedCategory == 'Snacks',
+                    onTap: () {
+                      ref.read(selectedCategoryProvider.notifier).state =
+                          'Snacks';
+                    },
+                  ),
                 ],
               ),
             ),
@@ -46,8 +105,19 @@ class HomeScreen extends ConsumerWidget {
             Expanded(
               child: productsAsync.when(
                 data: (products) {
+                  final filtered = products.where((product) {
+                    final matchesCategory =
+                        selectedCategory == 'All' ||
+                            product.category == selectedCategory;
+                    final matchesSearch = searchQuery.isEmpty ||
+                        product.name
+                            .toLowerCase()
+                            .contains(searchQuery.toLowerCase());
+                    return matchesCategory && matchesSearch;
+                  }).toList();
+
                   return _ProductsGrid(
-                    products: products,
+                    products: filtered,
                     crossAxisCount: crossAxisCount,
                   );
                 },
@@ -70,7 +140,7 @@ class HomeScreen extends ConsumerWidget {
                   );
                 },
                 error: (error, stackTrace) {
-                  return Center(
+                  return const Center(
                     child: Text('Failed to load products'),
                   );
                 },
