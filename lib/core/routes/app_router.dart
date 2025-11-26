@@ -1,24 +1,108 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:mini_mart/features/home/home_screen.dart';
+import 'package:mini_mart/features/product_detail/product_detail_screen.dart';
+import 'package:mini_mart/features/cart/cart_screen.dart';
+import 'package:mini_mart/features/profile/profile_screen.dart';
+import 'package:mini_mart/features/onboarding/onboarding_screen.dart';
+import 'package:mini_mart/models/product.dart';
 
 class AppRouter {
   AppRouter._(); // private constructor to prevent instantiation
 
   static final GoRouter router = GoRouter(
-    initialLocation: '/',
+    initialLocation: _initialLocation,
     routes: <RouteBase>[
       GoRoute(
         path: '/',
         name: 'home',
         pageBuilder: (context, state) {
-          return const MaterialPage(
-            child: HomeScreen(),
+          return _buildTransitionPage(
+            state,
+            const HomeScreen(),
           );
         },
       ),
-      // TODO: product detail, cart, profile, onboarding routes will be added later.
+      GoRoute(
+        path: '/product',
+        name: 'productDetail',
+        pageBuilder: (context, state) {
+          final product = state.extra! as Product;
+          return _buildTransitionPage(
+            state,
+            ProductDetailScreen(product: product),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/cart',
+        name: 'cart',
+        pageBuilder: (context, state) {
+          return _buildTransitionPage(
+            state,
+            const CartScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/profile',
+        name: 'profile',
+        pageBuilder: (context, state) {
+          return _buildTransitionPage(
+            state,
+            const ProfileScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/onboarding',
+        name: 'onboarding',
+        pageBuilder: (context, state) {
+          return _buildTransitionPage(
+            state,
+            const OnboardingScreen(),
+          );
+        },
+      ),
     ],
+  );
+}
+
+const _settingsBoxName = 'settingsBox';
+const _onboardingKey = 'onboardingCompleted';
+
+String get _initialLocation {
+  final box = Hive.box(_settingsBoxName);
+  final completed = box.get(_onboardingKey, defaultValue: false) as bool;
+  return completed ? '/' : '/onboarding';
+}
+
+CustomTransitionPage<void> _buildTransitionPage(
+  GoRouterState state,
+  Widget child,
+) {
+  return CustomTransitionPage<void>(
+    key: state.pageKey,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final curved = CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeInOut,
+      );
+      final slideAnimation = Tween<Offset>(
+        begin: const Offset(0, 0.08),
+        end: Offset.zero,
+      ).animate(curved);
+
+      return FadeTransition(
+        opacity: curved,
+        child: SlideTransition(
+          position: slideAnimation,
+          child: child,
+        ),
+      );
+    },
   );
 }
