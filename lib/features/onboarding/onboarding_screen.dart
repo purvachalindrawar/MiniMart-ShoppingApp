@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:mini_mart/core/onboarding/onboarding_provider.dart';
+import 'package:mini_mart/core/widgets/bouncy_button.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
@@ -90,7 +91,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
+                child: BouncyButton(
                   onPressed: () {
                     if (_currentPage == pages.length - 1) {
                       _completeOnboarding();
@@ -101,12 +102,15 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       );
                     }
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: Text(
-                      _currentPage == pages.length - 1
-                          ? 'Get started'
-                          : 'Next',
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      child: Text(
+                        _currentPage == pages.length - 1
+                            ? 'Get started'
+                            : 'Next',
+                      ),
                     ),
                   ),
                 ),
