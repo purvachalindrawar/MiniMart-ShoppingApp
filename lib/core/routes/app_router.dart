@@ -5,7 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mini_mart/features/home/home_screen.dart';
 import 'package:mini_mart/features/product_detail/product_detail_screen.dart';
 import 'package:mini_mart/features/cart/cart_screen.dart';
-import 'package:mini_mart/features/profile/profile_screen.dart';
+import 'package:mini_mart/features/profile/profile_screen_auth.dart';
 import 'package:mini_mart/features/onboarding/onboarding_screen.dart';
 import 'package:mini_mart/models/product.dart';
 
@@ -52,7 +52,7 @@ class AppRouter {
         pageBuilder: (context, state) {
           return _buildTransitionPage(
             state,
-            const ProfileScreen(),
+            const ProfileScreenAuth(),
           );
         },
       ),
