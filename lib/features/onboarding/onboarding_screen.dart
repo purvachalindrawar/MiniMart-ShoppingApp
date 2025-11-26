@@ -27,6 +27,17 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     context.goNamed('home');
   }
 
+  void _onPrimaryButtonPressed(int totalPages) {
+    if (_currentPage == totalPages - 1) {
+      _completeOnboarding();
+    } else {
+      _pageController.nextPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final pages = [
@@ -92,18 +103,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               child: SizedBox(
                 width: double.infinity,
                 child: BouncyButton(
-                  onPressed: () {
-                    if (_currentPage == pages.length - 1) {
-                      _completeOnboarding();
-                    } else {
-                      _pageController.nextPage(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      );
-                    }
-                  },
+                  onPressed: () => _onPrimaryButtonPressed(pages.length),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => _onPrimaryButtonPressed(pages.length),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       child: Text(
