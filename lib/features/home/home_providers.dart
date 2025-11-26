@@ -44,3 +44,8 @@ final productsProvider = FutureProvider<List<Product>>((ref) async {
 
   return products;
 });
+
+final selectedCategoryProvider = StateProvider<String>((ref) => 'All');
+
+final searchQueryProvider = StateProvider<String>((ref) => '');
+
