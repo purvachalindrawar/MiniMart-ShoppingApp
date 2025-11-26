@@ -7,6 +7,8 @@ import 'package:mini_mart/features/product_detail/product_detail_screen.dart';
 import 'package:mini_mart/features/cart/cart_screen.dart';
 import 'package:mini_mart/features/profile/profile_screen.dart';
 import 'package:mini_mart/features/onboarding/onboarding_screen.dart';
+import 'package:mini_mart/features/auth/login_screen.dart';
+
 import 'package:mini_mart/models/product.dart';
 
 class AppRouter {
@@ -66,17 +68,37 @@ class AppRouter {
           );
         },
       ),
+      GoRoute(
+        path: '/login',
+        name: 'login',
+        pageBuilder: (context, state) {
+          return _buildTransitionPage(
+            state,
+            const LoginScreen(),
+          );
+        },
+      ),
     ],
   );
 }
 
 const _settingsBoxName = 'settingsBox';
 const _onboardingKey = 'onboardingCompleted';
+const _authUserKey = 'authUser';
 
 String get _initialLocation {
   final box = Hive.box(_settingsBoxName);
   final completed = box.get(_onboardingKey, defaultValue: false) as bool;
-  return completed ? '/' : '/onboarding';
+  if (!completed) {
+    return '/onboarding';
+  }
+
+  final storedUser = box.get(_authUserKey);
+  if (storedUser is Map) {
+    return '/';
+  }
+
+  return '/login';
 }
 
 CustomTransitionPage<void> _buildTransitionPage(
