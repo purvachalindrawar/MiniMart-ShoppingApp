@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mini_mart/features/home/home_screen.dart';
 import 'package:mini_mart/features/product_detail/product_detail_screen.dart';
 import 'package:mini_mart/features/cart/cart_screen.dart';
+import 'package:mini_mart/features/profile/profile_screen.dart';
 import 'package:mini_mart/models/product.dart';
 
 class AppRouter {
@@ -40,7 +41,16 @@ class AppRouter {
           );
         },
       ),
-      // TODO: profile, onboarding routes will be added later.
+      GoRoute(
+        path: '/profile',
+        name: 'profile',
+        pageBuilder: (context, state) {
+          return const MaterialPage(
+            child: ProfileScreen(),
+          );
+        },
+      ),
+      // TODO: onboarding routes will be added later.
     ],
   );
 }

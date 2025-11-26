@@ -53,6 +53,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               context.pushNamed('cart');
             },
           ),
+          IconButton(
+            icon: const Icon(Icons.person_outline),
+            onPressed: () {
+              context.pushNamed('profile');
+            },
+          ),
         ],
       ),
       body: Padding(
