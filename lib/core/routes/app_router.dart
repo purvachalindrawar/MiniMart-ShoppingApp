@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:mini_mart/features/home/home_screen.dart';
 import 'package:mini_mart/features/product_detail/product_detail_screen.dart';
+import 'package:mini_mart/features/cart/cart_screen.dart';
 import 'package:mini_mart/models/product.dart';
 
 class AppRouter {
@@ -30,7 +31,16 @@ class AppRouter {
           );
         },
       ),
-      // TODO: cart, profile, onboarding routes will be added later.
+      GoRoute(
+        path: '/cart',
+        name: 'cart',
+        pageBuilder: (context, state) {
+          return const MaterialPage(
+            child: CartScreen(),
+          );
+        },
+      ),
+      // TODO: profile, onboarding routes will be added later.
     ],
   );
 }
