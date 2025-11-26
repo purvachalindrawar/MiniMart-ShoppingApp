@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:mini_mart/features/cart/cart_providers.dart';
 import 'package:mini_mart/models/product.dart';
 
 class ProductDetailScreen extends ConsumerStatefulWidget {
@@ -47,7 +48,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen>
   Future<void> _onAddToCartPressed() async {
     await _addToCartController.forward();
     await _addToCartController.reverse();
-    // TODO: integrate with cart provider.
+    ref.read(cartProvider.notifier).addProduct(widget.product);
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('${widget.product.name} added to cart')),
