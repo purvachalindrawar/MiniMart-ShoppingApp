@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:mini_mart/features/cart/cart_providers.dart';
+import 'package:mini_mart/features/favorites/favorites_providers.dart';
 import 'package:mini_mart/models/product.dart';
 
 class ProductDetailScreen extends ConsumerStatefulWidget {
@@ -58,6 +59,8 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen>
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
+    final favorites = ref.watch(favoritesProvider);
+    final isFavorite = favorites.contains(product.id);
 
     final images = [
       product.imageUrl,
@@ -68,6 +71,18 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen>
     return Scaffold(
       appBar: AppBar(
         title: Text(product.name),
+        actions: [
+          IconButton(
+            icon: Icon(
+              isFavorite ? Icons.favorite : Icons.favorite_border,
+            ),
+            onPressed: () {
+              ref
+                  .read(favoritesProvider.notifier)
+                  .toggle(product.id);
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
