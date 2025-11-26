@@ -32,13 +32,15 @@ class MiniMartApp extends ConsumerWidget {
       title: 'MiniMart',
       themeMode: themeMode,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF2E7D32), // rich grocery green
+        ),
         brightness: Brightness.light,
         useMaterial3: true,
       ),
       darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.green,
+          seedColor: const Color(0xFF2E7D32),
           brightness: Brightness.dark,
         ),
         brightness: Brightness.dark,
