@@ -9,8 +9,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
 
-  // Open settings box for theme and onboarding; other boxes will be opened
-  // in their respective feature layers.
+  
   await Hive.openBox('settingsBox');
   await Hive.openBox('cartBox');
 
@@ -33,14 +32,14 @@ class MiniMartApp extends ConsumerWidget {
       themeMode: themeMode,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF2E7D32), // rich grocery green
+          seedColor: const Color(0xFF1565C0), 
         ),
         brightness: Brightness.light,
         useMaterial3: true,
       ),
       darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF2E7D32),
+          seedColor: const Color(0xFF1565C0),
           brightness: Brightness.dark,
         ),
         brightness: Brightness.dark,

@@ -90,8 +90,8 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 260,
+              AspectRatio(
+                aspectRatio: 16 / 9,
                 child: PageView.builder(
                   itemCount: images.length,
                   itemBuilder: (context, index) {
