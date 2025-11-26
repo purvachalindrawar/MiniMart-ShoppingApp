@@ -12,6 +12,7 @@ Future<void> main() async {
   // Open settings box for theme and onboarding; other boxes will be opened
   // in their respective feature layers.
   await Hive.openBox('settingsBox');
+  await Hive.openBox('cartBox');
 
   runApp(
     const ProviderScope(
