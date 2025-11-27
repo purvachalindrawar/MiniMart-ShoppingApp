@@ -55,7 +55,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
-
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -159,7 +158,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     strokeWidth: 2,
                                   ),
                                 )
-                              : Text(_isLoginMode ? 'Sign in' : 'Create account'),
+                              : Text(
+                                  _isLoginMode ? 'Sign in' : 'Create account'),
                         ),
                       ),
                       const SizedBox(height: 12),
