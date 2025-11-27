@@ -24,7 +24,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   void _completeOnboarding() {
     ref.read(onboardingCompletedProvider.notifier).completeOnboarding();
-    context.goNamed('home');
+    context.goNamed('login');
   }
 
   void _onPrimaryButtonPressed(int totalPages) {

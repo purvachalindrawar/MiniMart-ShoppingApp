@@ -5,10 +5,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mini_mart/features/home/home_screen.dart';
 import 'package:mini_mart/features/product_detail/product_detail_screen.dart';
 import 'package:mini_mart/features/cart/cart_screen.dart';
-import 'package:mini_mart/features/profile/profile_screen.dart';
+import 'package:mini_mart/features/profile/profile_screen_auth.dart';
 import 'package:mini_mart/features/onboarding/onboarding_screen.dart';
 import 'package:mini_mart/features/auth/login_screen.dart';
-
 import 'package:mini_mart/models/product.dart';
 
 class AppRouter {
@@ -16,6 +15,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     initialLocation: _initialLocation,
+
     routes: <RouteBase>[
       GoRoute(
         path: '/',
@@ -24,6 +24,16 @@ class AppRouter {
           return _buildTransitionPage(
             state,
             const HomeScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/login',
+        name: 'login',
+        pageBuilder: (context, state) {
+          return _buildTransitionPage(
+            state,
+            const LoginScreen(),
           );
         },
       ),
@@ -54,7 +64,7 @@ class AppRouter {
         pageBuilder: (context, state) {
           return _buildTransitionPage(
             state,
-            const ProfileScreen(),
+            const ProfileScreenAuth(),
           );
         },
       ),
@@ -65,16 +75,6 @@ class AppRouter {
           return _buildTransitionPage(
             state,
             const OnboardingScreen(),
-          );
-        },
-      ),
-      GoRoute(
-        path: '/login',
-        name: 'login',
-        pageBuilder: (context, state) {
-          return _buildTransitionPage(
-            state,
-            const LoginScreen(),
           );
         },
       ),
