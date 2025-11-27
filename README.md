@@ -7,7 +7,15 @@ management, routing, persistence and simple animations.
 The app is focused on a clean UI, smooth flows and clear code.
 
 ---
+## Live demo
 
+Link 
+``` 
+https://mini-mart-assesment.netlify.app/
+```
+
+The web build is deployed on Netlify (static files from `build/web`).  
+Main development branch is `develop`; deployment is built from that branch locally.
 ## Features
 
 - Home
@@ -79,6 +87,12 @@ The app is focused on a clean UI, smooth flows and clear code.
 - `lib/models/` – simple models like `Product` and [User](cci:2://file:///c:/Assesments/Mini-Mart/mini_mart/lib/models/user.dart:0:0-38:1).
 
 ---
+
+> Note: Authentication is implemented locally per platform (no real backend).
+> Accounts created on web are stored in browser storage; accounts created on
+> Android are stored in the app’s local Hive box. Credentials are not shared
+> across devices – this is intentional for this assignment.
+
 
 ## Getting started
 
