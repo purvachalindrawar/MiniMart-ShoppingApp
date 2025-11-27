@@ -16,6 +16,10 @@ https://mini-mart-assesment.netlify.app/
 
 The web build is deployed on Netlify (static files from `build/web`).  
 Main development branch is `develop`; deployment is built from that branch locally.
+
+## Download APK
+
+[Download Android APK](https://drive.google.com/file/d/1Apz7sELqYgAHjVt-8X6Y9ZOXuQKEXxZk/view?usp=sharing)
 ## Features
 
 - Home
